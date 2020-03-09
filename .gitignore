@@ -29,6 +29,8 @@ HELP.md
 .vscode/
 
 
+application.log
+
 ### Front ###
 node_modules/
 dll/

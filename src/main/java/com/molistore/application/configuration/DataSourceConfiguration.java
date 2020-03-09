@@ -49,7 +49,7 @@ public class DataSourceConfiguration {
   public LocalContainerEntityManagerFactoryBean moliStoreEntityManagerFactory(EntityManagerFactoryBuilder builder) {
     return builder
         .dataSource(dataSource())
-        .packages("com.molistore.entities")
+        .packages("com.molistore.application.entities")
         .properties(singletonMap("hibernate.hbm2ddl.auto", "update"))
         .persistenceUnit("lending-PU")
         .build();
@@ -57,7 +57,7 @@ public class DataSourceConfiguration {
 
   @Bean(name = "moliStoreTransactionManager")
   @Qualifier("moliStoreTransactionManager")
-  public JpaTransactionManager moliStoreTransactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
+  public JpaTransactionManager moliStoreTransactionManager(@Qualifier("moliStoreEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
     return new JpaTransactionManager(entityManagerFactory);
   }
 
