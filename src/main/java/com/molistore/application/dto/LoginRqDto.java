@@ -1,6 +1,7 @@
 package com.molistore.application.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class LoginRqDto implements Serializable {
 
     final static long serialVersionUID = 7232546670110633767L;
@@ -18,13 +20,6 @@ public class LoginRqDto implements Serializable {
     private String email;
     @NotNull
     private String password;
-
-    /**
-     * Creates a new LoginRqDto.
-     */
-    public LoginRqDto() {
-        super();
-    }
 
     /**
      * Creates a new LoginRqDto.
