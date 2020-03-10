@@ -1,5 +1,6 @@
 package com.molistore.application.entities;
 
+import com.molistore.application.entities.profile.UserEntity;
 import com.molistore.application.enums.Gender;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

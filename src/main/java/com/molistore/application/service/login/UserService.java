@@ -1,7 +1,7 @@
 package com.molistore.application.service.login;
 
 import com.molistore.application.dto.UserRegistrationDto;
-import com.molistore.application.entities.UserEntity;
+import com.molistore.application.entities.profile.UserEntity;
 import com.molistore.application.enums.Role;
 import com.molistore.application.exception.EmailExistsException;
 

@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -28,8 +29,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static com.molistore.application.enums.Role.ADMINISTRATOR;
-import static com.molistore.application.enums.Role.SUPERVISOR;
+import static com.molistore.application.enums.Role.ROLE_ADMINISTRATOR;
+import static com.molistore.application.enums.Role.ROLE_SUPERVISOR;
 import static org.springframework.http.HttpMethod.*;
 
 
@@ -72,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration/**").permitAll()
-                .antMatchers("/admin/**").hasAnyRole(ADMINISTRATOR.getName(), SUPERVISOR.getName())
+                .antMatchers("/admin/**").hasAnyRole(ROLE_ADMINISTRATOR.getName(), ROLE_SUPERVISOR.getName())
                 .antMatchers("/**").authenticated()
                 .and()
                 .sessionManagement()
@@ -94,14 +95,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(authenticationProvider());
     }
 
     @Slf4j
