@@ -127,6 +127,7 @@
             </activation>
             <properties>
                 <profile>develop</profile>
+                <frontend.url>localhost:8093</frontend.url>
                 <authentication.user>ss</authentication.user>
             </properties>
         </profile>
@@ -134,6 +135,7 @@
             <id>prod</id>
             <properties>
                 <profile>prod</profile>
+                <frontend.url>localhost:8093</frontend.url>
                 <authentication.user>ss</authentication.user>
             </properties>
         </profile>

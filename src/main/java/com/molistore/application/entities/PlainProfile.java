@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,15 +22,12 @@ import java.util.Set;
 @Table(name = "plain_profiles")
 @EqualsAndHashCode
 @ToString(exclude = {"id"})
-public class PlainProfile {
+public class PlainProfile implements Serializable {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "email", unique = true, nullable = false)
-    private String email;
 
     @Column(name = "firstName")
     private String firstName;
