@@ -39,11 +39,12 @@ public class JwtUtilImpl implements JwtUtil {
 
     /**
      * The claims tell you, at minimum:
-     *
+     * <p>
      * Who this person is and the URI to their user resource (the sub claim)
      * What this person can access with this token (the scope claim)
      * When the token expires. Your API should be using this when it verifies the token.
      * Because the token is signed with a secret key you can verify its signature and implicitly trust what is being claimed
+     *
      * @param token
      * @param claimsResolver
      * @param <T>
@@ -79,12 +80,13 @@ public class JwtUtilImpl implements JwtUtil {
      * Uses the SECRET_KEY static property to generate the signing key
      * Uses the fluent API to add the claims and sign the JWT
      * Sets the expiration date
+     *
      * @param claims  The claims tell you, at minimum:
-     * <p> - Who this person is and the URI to their user resource (the sub claims)
-     * <p> - What this person can access with this token (the scope claim)
-     * <p> - When the token expires. Your API should be using this when it verifies the token.
-     * <p>Because the token is signed with a secret key you can verify its signature and implicitly trust what is being claimed
-     * <p>
+     *                <p> - Who this person is and the URI to their user resource (the sub claims)
+     *                <p> - What this person can access with this token (the scope claim)
+     *                <p> - When the token expires. Your API should be using this when it verifies the token.
+     *                <p>Because the token is signed with a secret key you can verify its signature and implicitly trust what is being claimed
+     *                <p>
      * @param subject userName from {@link UserDetails}
      * @return Builds the JWT and serializes it to a compact, URL-safe string
      */
@@ -95,7 +97,7 @@ public class JwtUtilImpl implements JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(accessTokenExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
                 .signWith(SIGNATURE_ALGORITHM, signingKey)
                 .compact();
     }

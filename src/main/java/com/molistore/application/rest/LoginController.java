@@ -10,7 +10,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/login", produces = "application/json")
+@RequestMapping(value = "/", produces = "application/json")
 public class LoginController {
 
     private final LoginService loginService;
@@ -22,7 +22,7 @@ public class LoginController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping("/login")
     public ResponseEntity<String> createLogin(@Valid @RequestBody LoginRqDto loginRqDto) {
         return loginService.login(loginRqDto);
     }

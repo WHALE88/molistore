@@ -2,6 +2,7 @@ package com.molistore.application.configuration;
 
 
 import com.google.common.collect.ImmutableList;
+import com.molistore.application.filters.JwtRequestFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,6 +23,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -40,13 +42,16 @@ import static org.springframework.http.HttpMethod.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private final JwtRequestFilter jwtRequestFilter;
     private final UserDetailsService userDetailsService;
 
     @Value(("${frontend.url}"))
     private String frontendUrl;
 
     @Autowired
-    public SecurityConfiguration(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+    public SecurityConfiguration(JwtRequestFilter jwtRequestFilter,
+                                 @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+        this.jwtRequestFilter = jwtRequestFilter;
         this.userDetailsService = userDetailsService;
     }
 
@@ -78,6 +83,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
