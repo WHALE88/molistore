@@ -4,10 +4,7 @@ import com.molistore.application.dto.LoginRqDto;
 import com.molistore.application.service.login.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -17,6 +14,13 @@ import javax.validation.Valid;
 public class LoginController {
 
     private final LoginService loginService;
+
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "HELLO WORLD";
+    }
+
 
     @PostMapping("/")
     public ResponseEntity<String> createLogin(@Valid @RequestBody LoginRqDto loginRqDto) {

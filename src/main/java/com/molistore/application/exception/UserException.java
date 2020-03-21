@@ -1,7 +1,11 @@
 package com.molistore.application.exception;
 
 import com.molistore.application.enums.ExceptionCode;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class UserException extends RuntimeException {
 
     private ExceptionCode exceptionCode;
