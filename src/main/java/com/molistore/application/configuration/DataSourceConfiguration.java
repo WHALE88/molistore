@@ -27,38 +27,38 @@ import static java.util.Collections.singletonMap;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-    basePackages = {"com.molistore.application.dao"},
-    entityManagerFactoryRef = "moliStoreEntityManagerFactory",
-    transactionManagerRef = "moliStoreTransactionManager")
+        basePackages = {"com.molistore.application.dao"},
+        entityManagerFactoryRef = "moliStoreEntityManagerFactory",
+        transactionManagerRef = "moliStoreTransactionManager")
 public class DataSourceConfiguration {
 
-  @Primary
-  @Bean(name = "dataSource")
-  @ConfigurationProperties(prefix = "spring.mstore-datasource")
-  public DataSource dataSource() {
-    return DataSourceBuilder.create().build();
-  }
+    @Primary
+    @Bean(name = "dataSource")
+    @ConfigurationProperties(prefix = "spring.mstore-datasource")
+    public DataSource dataSource() {
+        return DataSourceBuilder.create().build();
+    }
 
-  @Bean(name = "jdbcTemplate")
-  public JdbcTemplate jdbcTemplate() {
-    return new JdbcTemplate(dataSource());
-  }
+    @Bean(name = "jdbcTemplate")
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
+    }
 
-  @PersistenceContext(unitName = "lending-PU")
-  @Bean(name = "moliStoreEntityManagerFactory")
-  public LocalContainerEntityManagerFactoryBean moliStoreEntityManagerFactory(EntityManagerFactoryBuilder builder) {
-    return builder
-        .dataSource(dataSource())
-        .packages("com.molistore.application.entities")
-        .properties(singletonMap("hibernate.hbm2ddl.auto", "update"))
-        .persistenceUnit("lending-PU")
-        .build();
-  }
+    @PersistenceContext(unitName = "lending-PU")
+    @Bean(name = "moliStoreEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean moliStoreEntityManagerFactory(EntityManagerFactoryBuilder builder) {
+        return builder
+                .dataSource(dataSource())
+                .packages("com.molistore.application.entities")
+                .properties(singletonMap("hibernate.hbm2ddl.auto", "update"))
+                .persistenceUnit("lending-PU")
+                .build();
+    }
 
-  @Bean(name = "moliStoreTransactionManager")
-  @Qualifier("moliStoreTransactionManager")
-  public JpaTransactionManager moliStoreTransactionManager(@Qualifier("moliStoreEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
-    return new JpaTransactionManager(entityManagerFactory);
-  }
+    @Bean(name = "moliStoreTransactionManager")
+    @Qualifier("moliStoreTransactionManager")
+    public JpaTransactionManager moliStoreTransactionManager(@Qualifier("moliStoreEntityManagerFactory") EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
 
 }
